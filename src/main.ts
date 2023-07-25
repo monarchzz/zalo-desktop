@@ -1,18 +1,80 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, Tray, nativeImage, Menu } from "electron";
 import * as path from "path";
+import MenuBuilder from "./menu";
+
+let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
+let isQuiting = false;
+
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, "assets")
+  : path.join(__dirname, "../assets");
+
+const icon = nativeImage.createFromPath(
+  path.join(RESOURCES_PATH, "zalo-icon.png")
+);
+
+function createTray() {
+  tray = new Tray(icon);
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Toggle",
+      click: () => {
+        mainWindow?.show();
+      },
+    },
+    {
+      label: "Quit",
+      click: () => {
+        isQuiting = true;
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(contextMenu);
+}
 
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    height: 600,
+  mainWindow = new BrowserWindow({
+    show: false,
+    width: 1024,
+    height: 728,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 800,
+    icon: icon,
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  mainWindow.loadURL("https://chat.zalo.me/");
+
+  mainWindow.on("ready-to-show", () => {
+    if (!mainWindow) {
+      throw new Error('"mainWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      mainWindow.minimize();
+    } else {
+      mainWindow.show();
+    }
+  });
+
+  // mainWindow.on("closed", () => {});
+  mainWindow.on("close", function (event) {
+    if (!isQuiting) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
+
+    return false;
+  });
+
+  const menuBuilder = new MenuBuilder(mainWindow);
+  menuBuilder.buildMenu();
+  // // and load the index.html of the app.
+  // mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -23,11 +85,15 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
+  createTray();
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+      createTray();
+    }
   });
 });
 
@@ -36,6 +102,7 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
+    isQuiting = true;
     app.quit();
   }
 });
