@@ -10,9 +10,7 @@ const RESOURCES_PATH = app.isPackaged
   ? path.join(process.resourcesPath, "assets")
   : path.join(__dirname, "../assets");
 
-const icon = nativeImage.createFromPath(
-  path.join(RESOURCES_PATH, "zalo-icon.png")
-);
+const icon = nativeImage.createFromPath(path.join(RESOURCES_PATH, "icon.png"));
 
 function createTray() {
   tray = new Tray(icon);
