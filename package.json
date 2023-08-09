@@ -10,7 +10,7 @@
     "start": "npm run build && electron ./dist/main.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "package": "npm run build && electron-builder build"
+    "package": "npm run build && electron-builder --linux appImage"
   },
   "repository": "https://github.com/monarchzz/zalo-desktop",
   "keywords": [
@@ -30,7 +30,7 @@
   },
   "dependencies": {},
   "build": {
-    "productName": "zado",
+    "productName": "",
     "appId": "com.monarch.zalo",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
