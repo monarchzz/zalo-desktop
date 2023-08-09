@@ -2,7 +2,7 @@
   "name": "zalo-desktop",
   "version": "0.0.1",
   "description": "A minimal Electron application written with Typescript",
-  "main": "./src/main.ts",
+  "main": "./dist/main.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -10,7 +10,7 @@
     "start": "npm run build && electron ./dist/main.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "build:arch": "electron-builder --linux appImage"
+    "package": "npm run build && electron-builder --linux appImage"
   },
   "repository": "https://github.com/monarchzz/zalo-desktop",
   "keywords": [
@@ -28,8 +28,5 @@
     "eslint": "^7.32.0",
     "typescript": "^4.8.3"
   },
-  "dependencies": {},
-  "build": {
-    "appId": "zalo.trunghieu"
-  }
+  "dependencies": {}
 }
