@@ -30,7 +30,7 @@
   },
   "dependencies": {},
   "build": {
-    "productName": "",
+    "productName": "zalo-desktop",
     "appId": "com.monarch.zalo",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
