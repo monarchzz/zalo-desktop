@@ -10,7 +10,7 @@
     "start": "npm run build && electron ./dist/main.js",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "package": "npm run build && electron-builder --linux appImage"
+    "package": "npm run build && electron-builder build"
   },
   "repository": "https://github.com/monarchzz/zalo-desktop",
   "keywords": [
@@ -28,5 +28,64 @@
     "eslint": "^7.32.0",
     "typescript": "^4.8.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "build": {
+    "productName": "zado",
+    "appId": "com.monarch.zalo",
+    "asar": true,
+    "asarUnpack": "**\\*.{node,dll}",
+    "files": [
+      "dist",
+      "node_modules",
+      "package.json"
+    ],
+    "mac": {
+      "target": {
+        "target": "default",
+        "arch": [
+          "arm64",
+          "x64"
+        ]
+      },
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    },
+    "directories": {
+      "output": "build"
+    },
+    "extraResources": [
+      "./assets/**"
+    ],
+    "publish": {
+      "provider": "github"
+    }
+  }
 }
