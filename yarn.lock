@@ -888,10 +888,10 @@ electron-publish@24.5.0:
     lazy-val "^1.0.5"
     mime "^2.5.2"
 
-electron@^24.3.0:
-  version "24.6.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-24.6.4.tgz#6e798d2f4ada52e51cf837df2f5bcdeac3d6e1ff"
-  integrity sha512-/6dLhXRunI5HfQJs5kBliq7l0N6MV1TQR8fU2ZS1yarrCGo9FMjOPIsULflrbvEXA84IygwflLXMdc/FPPkWOg==
+electron@^26.2.0:
+  version "26.2.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-26.2.0.tgz#ea1f776c4754fbd387817e3aefc7c88f7171c852"
+  integrity sha512-H6Z0sYTtLcybHCQT1yti/8BK+vN5/ZfoekKcdrfZMh5mVf2Z7psFVs6nBhXPzIOyRE/gdb6NcOppnUsGc3NJVQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
